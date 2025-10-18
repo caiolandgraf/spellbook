@@ -1,1 +1,0 @@
-exports.id=68194,exports.ids=[68194],exports.modules={68194:()=>{Prism.languages.hsts={directive:{pattern:/\b(?:includeSubDomains|max-age|preload)(?=[\s;=]|$)/i,alias:"property"},operator:/=/,punctuation:/;/}}};

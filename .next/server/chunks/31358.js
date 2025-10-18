@@ -1,1 +1,0 @@
-exports.id=31358,exports.ids=[31358],exports.modules={31358:()=>{Prism.languages.cilkc=Prism.languages.insertBefore("c","function",{"parallel-keyword":{pattern:/\bcilk_(?:for|reducer|s(?:cope|pawn|ync))\b/,alias:"keyword"}}),Prism.languages["cilk-c"]=Prism.languages.cilkc}};
