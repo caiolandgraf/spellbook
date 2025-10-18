@@ -1,0 +1,304 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/_not-found/page-bf6f93f2bd08a284.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/css/0feeb01adc7f5df2.css",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/96199-0faf705eb3c513e6.js",
+      "static/chunks/app/layout-6da25e6af2311613.js"
+    ],
+    "/api/profile/check-username/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/profile/check-username/route-803ceb1d45f06131.js"
+    ],
+    "/api/profile/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/profile/route-803ceb1d45f06131.js"
+    ],
+    "/api/spellbooks/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/spellbooks/route-803ceb1d45f06131.js"
+    ],
+    "/api/spells/[id]/favorite/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/spells/[id]/favorite/route-803ceb1d45f06131.js"
+    ],
+    "/api/spells/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/spells/route-803ceb1d45f06131.js"
+    ],
+    "/api/spellbooks/[id]/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/spellbooks/[id]/route-803ceb1d45f06131.js"
+    ],
+    "/sitemap.xml/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/sitemap.xml/route-803ceb1d45f06131.js"
+    ],
+    "/api/spells/[id]/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/spells/[id]/route-803ceb1d45f06131.js"
+    ],
+    "/api/auth/[...nextauth]/route": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/app/api/auth/[...nextauth]/route-803ceb1d45f06131.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/app/page-85bb10e7548af835.js"
+    ],
+    "/spells/[id]/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/14035-66cb74408c1479a9.js",
+      "static/chunks/35933-9a6e4be215c8e370.js",
+      "static/chunks/43520-4ead7dfc3ff06a02.js",
+      "static/chunks/65943-fbf78953d84c6d9d.js",
+      "static/chunks/10070-e83ab23a12459773.js",
+      "static/chunks/46952-ee7aaad249879ac5.js",
+      "static/chunks/app/spells/[id]/page-d49acc689d29f39f.js"
+    ],
+    "/auth/signin/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/96199-0faf705eb3c513e6.js",
+      "static/chunks/app/auth/signin/page-bfbe9be964707005.js"
+    ],
+    "/u/[username]/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/25667-d2f16b2c90a3c49c.js",
+      "static/chunks/app/u/[username]/page-0752a6859b8b3ce5.js"
+    ],
+    "/spells/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/app/spells/page-0ad7116f957aef47.js"
+    ],
+    "/(dashboard)/layout": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/14035-66cb74408c1479a9.js",
+      "static/chunks/96199-0faf705eb3c513e6.js",
+      "static/chunks/35933-9a6e4be215c8e370.js",
+      "static/chunks/app/(dashboard)/layout-b25b42f83eebcbf9.js"
+    ],
+    "/(dashboard)/favorites/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/55392-c7dee1d7a4521d81.js",
+      "static/chunks/app/(dashboard)/favorites/page-4eab8355ea2f6f33.js"
+    ],
+    "/(dashboard)/notifications/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/app/(dashboard)/notifications/page-3bde98f6a85be3f8.js"
+    ],
+    "/(dashboard)/spellbooks/[id]/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/14035-66cb74408c1479a9.js",
+      "static/chunks/35933-9a6e4be215c8e370.js",
+      "static/chunks/65943-fbf78953d84c6d9d.js",
+      "static/chunks/app/(dashboard)/spellbooks/[id]/page-6a32a587afe6b7af.js"
+    ],
+    "/(dashboard)/settings/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/96199-0faf705eb3c513e6.js",
+      "static/chunks/25667-d2f16b2c90a3c49c.js",
+      "static/chunks/app/(dashboard)/settings/page-4987e8937b6084be.js"
+    ],
+    "/(dashboard)/dashboard/spell/[id]/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/14035-66cb74408c1479a9.js",
+      "static/chunks/35933-9a6e4be215c8e370.js",
+      "static/chunks/43520-4ead7dfc3ff06a02.js",
+      "static/chunks/65943-fbf78953d84c6d9d.js",
+      "static/chunks/46952-ee7aaad249879ac5.js",
+      "static/chunks/app/(dashboard)/dashboard/spell/[id]/page-387b5fdbe2736f0c.js"
+    ],
+    "/(dashboard)/dashboard/spell/[id]/edit/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/14035-66cb74408c1479a9.js",
+      "static/chunks/43520-4ead7dfc3ff06a02.js",
+      "static/chunks/38054-e523deccd640cbb0.js",
+      "static/chunks/app/(dashboard)/dashboard/spell/[id]/edit/page-7ece89b687d339b3.js"
+    ],
+    "/(dashboard)/dashboard/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/app/(dashboard)/dashboard/page-b6725e6cc6de3ad3.js"
+    ],
+    "/(dashboard)/dashboard/spell/new/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/43520-4ead7dfc3ff06a02.js",
+      "static/chunks/46952-ee7aaad249879ac5.js",
+      "static/chunks/app/(dashboard)/dashboard/spell/new/page-d58ff3b50d693537.js"
+    ],
+    "/(dashboard)/spellbooks/new/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/app/(dashboard)/spellbooks/new/page-9bf9080b0a1c0ab5.js"
+    ],
+    "/(dashboard)/profile/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/18720-556e3d1a85c19a06.js",
+      "static/chunks/306-4fe77417b85864d6.js",
+      "static/chunks/96199-0faf705eb3c513e6.js",
+      "static/chunks/25667-d2f16b2c90a3c49c.js",
+      "static/chunks/app/(dashboard)/profile/page-d518215e2ecfdf94.js"
+    ],
+    "/(dashboard)/explore/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/55392-c7dee1d7a4521d81.js",
+      "static/chunks/app/(dashboard)/explore/page-82f0dbbafd0ea239.js"
+    ],
+    "/(dashboard)/spellbooks/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/52619-c48a18d6f62d2371.js",
+      "static/chunks/70273-789e1ecae936c348.js",
+      "static/chunks/app/(dashboard)/spellbooks/page-3d9d5dcdc7394d30.js"
+    ],
+    "/(dashboard)/spellbooks/[id]/edit/page": [
+      "static/chunks/webpack-d9782fbe354ed515.js",
+      "static/chunks/4bd1b696-bad92808725a934a.js",
+      "static/chunks/31255-703337860819586b.js",
+      "static/chunks/main-app-0dd66b9624af868c.js",
+      "static/chunks/4545-f83bd116206f1538.js",
+      "static/chunks/app/(dashboard)/spellbooks/[id]/edit/page-56d7333fd5df4da7.js"
+    ]
+  }
+}

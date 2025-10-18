@@ -1,0 +1,1 @@
+exports.id=43481,exports.ids=[43481],exports.modules={43481:()=>{!function(a){var b=a.util.clone(a.languages.typescript);a.languages.tsx=a.languages.extend("jsx",b),delete a.languages.tsx.parameter,delete a.languages.tsx["literal-property"];var c=a.languages.tsx.tag;c.pattern=RegExp(/(^|[^\w$]|(?=<\/))/.source+"(?:"+c.pattern.source+")",c.pattern.flags),c.lookbehind=!0}(Prism)}};

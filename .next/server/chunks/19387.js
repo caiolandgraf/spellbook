@@ -1,0 +1,1 @@
+exports.id=19387,exports.ids=[19387],exports.modules={19387:()=>{Prism.languages.t4=Prism.languages["t4-cs"]=Prism.languages["t4-templating"].createT4("csharp")}};

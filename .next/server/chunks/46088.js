@@ -1,0 +1,1 @@
+exports.id=46088,exports.ids=[46088],exports.modules={46088:()=>{!function(a){function b(b,c){a.languages[b]&&a.languages.insertBefore(b,"comment",{"doc-comment":c})}var c=a.languages.markup.tag,d={pattern:/\/\/\/.*/,greedy:!0,alias:"comment",inside:{tag:c}};b("csharp",d),b("fsharp",d),b("vbnet",{pattern:/'''.*/,greedy:!0,alias:"comment",inside:{tag:c}})}(Prism)}};

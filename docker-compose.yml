@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: spellbook-postgres
+    environment:
+      POSTGRES_DB: spellbook
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+      - "5432:5432"

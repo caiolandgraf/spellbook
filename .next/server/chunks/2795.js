@@ -1,0 +1,1 @@
+exports.id=2795,exports.ids=[2795],exports.modules={2795:()=>{Prism.languages.hpkp={directive:{pattern:/\b(?:includeSubDomains|max-age|pin-sha256|preload|report-to|report-uri|strict)(?=[\s;=]|$)/i,alias:"property"},operator:/=/,punctuation:/;/}}};
