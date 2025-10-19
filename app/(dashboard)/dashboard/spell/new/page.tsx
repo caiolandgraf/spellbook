@@ -1,6 +1,6 @@
 'use client'
 
-import { Loader2, Plus, X } from 'lucide-react'
+import { Code2, Loader2, Plus, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -110,18 +110,23 @@ export default function NewSpellPage({
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-4xl font-bold mb-2">
-          Create New Spell
-          {spellbookId && (
-            <Badge variant="secondary" className="ml-3">
-              Adding to Spellbook
-            </Badge>
-          )}
-        </h1>
-        <p className="text-muted-foreground">
-          Save your code snippet and share it with the world
-        </p>
+      <div className="flex items-center gap-3">
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+          <Code2 className="w-6 h-6 text-primary" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            Create New Spell
+            {spellbookId && (
+              <Badge variant="secondary">
+                Adding to Spellbook
+              </Badge>
+            )}
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Save your code snippet and share it with the world
+          </p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>

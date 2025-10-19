@@ -138,18 +138,23 @@ export default function NotificationsPage() {
     <div className="container max-w-4xl py-8 space-y-8">
       <FadeIn>
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold flex items-center gap-3">
-              Notifications
-              {unreadCount > 0 && (
-                <Badge variant="default" className="rounded-full">
-                  {unreadCount}
-                </Badge>
-              )}
-            </h1>
-            <p className="text-muted-foreground">
-              Stay updated with your latest activity
-            </p>
+          <div className="flex items-center gap-4">
+            <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
+              <Bell className="w-8 h-8 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold flex items-center gap-3">
+                Notifications
+                {unreadCount > 0 && (
+                  <Badge variant="default" className="rounded-full">
+                    {unreadCount}
+                  </Badge>
+                )}
+              </h1>
+              <p className="text-muted-foreground">
+                Stay updated with your latest activity
+              </p>
+            </div>
           </div>
           {unreadCount > 0 && (
             <Button onClick={markAllAsRead} variant="outline" size="sm">

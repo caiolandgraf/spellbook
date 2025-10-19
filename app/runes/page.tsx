@@ -1,27 +1,27 @@
-import { BookOpen, Code2, Search } from 'lucide-react'
+import { BookOpen, Search, Sparkles } from 'lucide-react'
 import Link from 'next/link'
 import { auth } from '@/auth'
-import { SpellCard } from '@/components/spell-card'
+import { RuneCard } from '@/components/rune-card'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import prisma from '@/lib/prisma'
 
 export const metadata = {
-  title: 'Public Spells | Spellbook',
-  description: 'Browse all public code spells shared by the community'
+  title: 'Public Runes | Spellbook',
+  description: 'Browse all public HTML, CSS, and JavaScript runes shared by the community'
 }
 
-export default async function PublicSpellsPage({
+export default async function PublicRunesPage({
   searchParams
 }: {
-  searchParams: Promise<{ q?: string; lang?: string }>
+  searchParams: Promise<{ q?: string }>
 }) {
   const session = await auth()
-  const { q, lang } = await searchParams
+  const { q } = await searchParams
 
-  // Buscar spells públicos
-  const spells = await prisma.spell.findMany({
+  // Fetch public runes
+  const runes = await prisma.rune.findMany({
     where: {
       isPublic: true,
       ...(q && {
@@ -29,13 +29,14 @@ export default async function PublicSpellsPage({
           { title: { contains: q, mode: 'insensitive' } },
           { description: { contains: q, mode: 'insensitive' } }
         ]
-      }),
-      ...(lang && { language: lang })
+      })
     },
     include: {
-      spellbook: {
+      user: {
         select: {
-          name: true
+          name: true,
+          username: true,
+          image: true
         }
       }
     },
@@ -44,18 +45,6 @@ export default async function PublicSpellsPage({
     },
     take: 50
   })
-
-  // Buscar linguagens disponíveis (para o filtro)
-  const langsRaw = await prisma.spell.findMany({
-    where: { isPublic: true },
-    select: { language: true },
-    orderBy: { language: 'asc' },
-    take: 1000
-  })
-
-  const languages = Array.from(new Set(langsRaw.map(l => l.language))).filter(
-    Boolean
-  )
 
   return (
     <div className="min-h-screen bg-background">
@@ -73,9 +62,9 @@ export default async function PublicSpellsPage({
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
                 <Button asChild>
-                  <Link href="/dashboard/spell/new">
-                    <Code2 className="w-4 h-4 mr-2" />
-                    Create Spell
+                  <Link href="/dashboard/runes/new">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Create Rune
                   </Link>
                 </Button>
               </>
@@ -98,82 +87,68 @@ export default async function PublicSpellsPage({
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto text-center space-y-4">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-              <Code2 className="w-8 h-8 text-primary" />
+              <Sparkles className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Discover Amazing Spells
+              Discover Amazing Runes
             </h1>
             <p className="text-xl text-muted-foreground">
-              Explore code snippets and solutions shared by the community
+              Explore HTML, CSS, and JavaScript creations shared by the community
             </p>
 
             {/* Search */}
-            <form action="/spells" method="GET" className="max-w-xl mx-auto pt-4">
-              <div className="flex gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <Input
-                    name="q"
-                    type="search"
-                    placeholder="Search spells..."
-                    defaultValue={q}
-                    className="pl-10 h-12 text-base"
-                  />
-                </div>
-                <select
-                  name="lang"
-                  defaultValue={lang ?? ''}
-                  className="px-4 h-12 rounded-md border border-input bg-background text-sm"
-                >
-                  <option value="">All Languages</option>
-                  {languages.map(l => (
-                    <option key={l} value={l}>
-                      {l}
-                    </option>
-                  ))}
-                </select>
+            <form action="/runes" method="GET" className="max-w-xl mx-auto pt-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
+                  name="q"
+                  type="search"
+                  placeholder="Search runes..."
+                  defaultValue={q}
+                  className="pl-10 h-12 text-base"
+                />
               </div>
             </form>
           </div>
         </div>
       </section>
 
-      {/* Spells Grid */}
+      {/* Runes Grid */}
       <section className="container mx-auto px-4 py-12">
         {q && (
           <div className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
             <Search className="w-4 h-4" />
             <span>
-              Found {spells.length} spell{spells.length !== 1 ? 's' : ''} matching
+              Found {runes.length} rune{runes.length !== 1 ? 's' : ''} matching
               "{q}"
             </span>
             <Button variant="ghost" size="sm" asChild>
-              <Link href="/spells">Clear search</Link>
+              <Link href="/runes">Clear search</Link>
             </Button>
           </div>
         )}
 
-        {spells.length === 0 ? (
+        {runes.length === 0 ? (
           <Card className="max-w-md mx-auto">
             <CardContent className="pt-6 text-center space-y-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted">
-                <Code2 className="w-8 h-8 text-muted-foreground" />
+                <Sparkles className="w-8 h-8 text-muted-foreground" />
               </div>
               <div>
                 <h3 className="font-semibold text-lg mb-1">
-                  {q ? 'No spells found' : 'No public spells yet'}
+                  {q ? 'No runes found' : 'No public runes yet'}
                 </h3>
                 <p className="text-muted-foreground text-sm">
                   {q
                     ? 'Try a different search term'
-                    : 'Be the first to create and share a spell!'}
+                    : 'Be the first to create and share a rune!'}
                 </p>
               </div>
               {session && (
                 <Button asChild>
-                  <Link href="/dashboard/spell/new">
-                    <Code2 className="w-4 h-4 mr-2" />
-                    Create Your First Spell
+                  <Link href="/dashboard/runes/new">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Create Your First Rune
                   </Link>
                 </Button>
               )}
@@ -181,29 +156,38 @@ export default async function PublicSpellsPage({
           </Card>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {spells.map(spell => (
-              <SpellCard key={spell.id} spell={spell} isLoggedIn={false} />
+            {runes.map((rune) => (
+              <RuneCard key={rune.id} rune={rune} />
             ))}
           </div>
         )}
-
-        {/* Footer CTA */}
-        {!session && spells.length > 0 && (
-          <Card className="bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20 mt-12">
-            <CardContent className="py-8 text-center">
-              <h3 className="text-2xl font-bold mb-2">
-                Ready to cast your own spells?
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Join Spellbook to create, share, and execute code snippets
-              </p>
-              <Button size="lg" asChild>
-                <Link href="/auth/signin">Get Started for Free</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        )}
       </section>
+
+      {/* Footer */}
+      <footer className="border-t mt-12">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <BookOpen className="w-4 h-4" />
+              <span>Spellbook - Share your code magic</span>
+            </div>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/spells"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Browse Spells
+              </Link>
+              <Link
+                href="/runes"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Browse Runes
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

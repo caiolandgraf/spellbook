@@ -1,219 +1,233 @@
-'use client'
+"use client";
 
 import {
-    Bell,
-    Check,
-    Cog,
-    Database,
-    Loader2,
-    Moon,
-    Settings,
-    Shield,
-    Sun,
-    Trash2,
-    User,
-    X
-} from 'lucide-react'
-import { useSession } from 'next-auth/react'
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+  Bell,
+  Check,
+  Cog,
+  Database,
+  Loader2,
+  Moon,
+  Settings,
+  Shield,
+  Sun,
+  Trash2,
+  User,
+  X,
+} from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SettingsPage() {
-  const { data: session, update } = useSession()
-  const { theme, setTheme } = useTheme()
-  const [loading, setLoading] = useState(false)
-  const [checkingUsername, setCheckingUsername] = useState(false)
-  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(null)
-  const [usernameError, setUsernameError] = useState<string>('')
-  
+  const { data: session, update } = useSession();
+  const { theme, setTheme } = useTheme();
+  const [loading, setLoading] = useState(false);
+  const [checkingUsername, setCheckingUsername] = useState(false);
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(
+    null
+  );
+  const [usernameError, setUsernameError] = useState<string>("");
+
   // Profile form
   const [profile, setProfile] = useState({
-    name: '',
-    username: '',
-    bio: '',
-    website: '',
-    github: '',
-    twitter: ''
-  })
+    name: "",
+    username: "",
+    bio: "",
+    website: "",
+    github: "",
+    twitter: "",
+  });
 
   const [notifications, setNotifications] = useState({
     email: true,
     push: false,
     comments: true,
     favorites: true,
-    followers: false
-  })
+    followers: false,
+  });
 
   // Load user profile data
   useEffect(() => {
     if (session?.user) {
       const fetchProfile = async () => {
         try {
-          const res = await fetch('/api/profile')
+          const res = await fetch("/api/profile");
           if (res.ok) {
-            const data = await res.json()
+            const data = await res.json();
             setProfile({
-              name: data.name || '',
-              username: data.username || '',
-              bio: data.bio || '',
-              website: data.website || '',
-              github: data.github || '',
-              twitter: data.twitter || ''
-            })
+              name: data.name || "",
+              username: data.username || "",
+              bio: data.bio || "",
+              website: data.website || "",
+              github: data.github || "",
+              twitter: data.twitter || "",
+            });
           }
         } catch (error) {
-          console.error('Error loading profile:', error)
+          console.error("Error loading profile:", error);
         }
-      }
-      fetchProfile()
+      };
+      fetchProfile();
     }
-  }, [session])
+  }, [session]);
 
   // Check username availability with debounce
   useEffect(() => {
     const checkUsername = async () => {
       if (!profile.username || profile.username === session?.user?.username) {
-        setUsernameAvailable(null)
-        setUsernameError('')
-        return
+        setUsernameAvailable(null);
+        setUsernameError("");
+        return;
       }
 
       // Validate username format
-      const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/
+      const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/;
       if (!usernameRegex.test(profile.username)) {
-        setUsernameAvailable(false)
-        setUsernameError('Username must be 3-20 characters (letters, numbers, _, -)')
-        return
+        setUsernameAvailable(false);
+        setUsernameError(
+          "Username must be 3-20 characters (letters, numbers, _, -)"
+        );
+        return;
       }
 
-      setCheckingUsername(true)
-      setUsernameError('')
+      setCheckingUsername(true);
+      setUsernameError("");
 
       try {
-        const res = await fetch(`/api/profile/check-username?username=${encodeURIComponent(profile.username)}`)
-        const data = await res.json()
-        setUsernameAvailable(data.available)
+        const res = await fetch(
+          `/api/profile/check-username?username=${encodeURIComponent(
+            profile.username
+          )}`
+        );
+        const data = await res.json();
+        setUsernameAvailable(data.available);
         if (!data.available) {
-          setUsernameError('Username already taken')
+          setUsernameError("Username already taken");
         }
       } catch (error) {
-        console.error('Error checking username:', error)
+        console.error("Error checking username:", error);
       } finally {
-        setCheckingUsername(false)
+        setCheckingUsername(false);
       }
-    }
+    };
 
-    const timeoutId = setTimeout(checkUsername, 500)
-    return () => clearTimeout(timeoutId)
-  }, [profile.username, session?.user?.username])
+    const timeoutId = setTimeout(checkUsername, 500);
+    return () => clearTimeout(timeoutId);
+  }, [profile.username, session?.user?.username]);
 
   // Privacy settings
   const [privacy, setPrivacy] = useState({
     profilePublic: true,
     showEmail: false,
     showStats: true,
-    allowComments: true
-  })
+    allowComments: true,
+  });
 
   const handleSaveProfile = async () => {
     // Validate username
-    if (profile.username && !usernameAvailable && profile.username !== session?.user?.username) {
-      toast.error(usernameError || 'Username is not available')
-      return
+    if (
+      profile.username &&
+      !usernameAvailable &&
+      profile.username !== session?.user?.username
+    ) {
+      toast.error(usernameError || "Username is not available");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await fetch('/api/profile', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile)
-      })
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(profile),
+      });
 
       if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Failed to update profile')
+        const data = await res.json();
+        throw new Error(data.error || "Failed to update profile");
       }
 
-      const updatedUser = await res.json()
-      
+      const updatedUser = await res.json();
+
       // Update session with new data
       await update({
         ...session,
         user: {
           ...session?.user,
           name: updatedUser.name,
-          username: updatedUser.username
-        }
-      })
+          username: updatedUser.username,
+        },
+      });
 
-      toast.success('Profile updated successfully!')
+      toast.success("Profile updated successfully!");
     } catch (error: any) {
-      toast.error(error.message || 'Failed to update profile')
+      toast.error(error.message || "Failed to update profile");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSaveAppearance = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       // Theme is already saved via next-themes
-      await new Promise(resolve => setTimeout(resolve, 300))
-      toast.success('Appearance settings saved!')
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      toast.success("Appearance settings saved!");
     } catch (error) {
-      toast.error('Failed to save settings')
+      toast.error("Failed to save settings");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSaveNotifications = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
-      toast.success('Notification settings saved!')
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      toast.success("Notification settings saved!");
     } catch (error) {
-      toast.error('Failed to save settings')
+      toast.error("Failed to save settings");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleSavePrivacy = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500))
-      toast.success('Privacy settings saved!')
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      toast.success("Privacy settings saved!");
     } catch (error) {
-      toast.error('Failed to save settings')
+      toast.error("Failed to save settings");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Settings className="w-10 h-10 text-primary" />
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+          <Settings className="w-6 h-6 text-primary" />
+        </div>
         <div>
-          <h1 className="text-4xl font-bold">Settings</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold">Settings</h1>
+          <p className="text-sm text-muted-foreground">
             Manage your account settings and preferences
           </p>
         </div>
@@ -259,7 +273,9 @@ export default function SettingsPage() {
                   id="name"
                   placeholder="Your display name"
                   value={profile.name}
-                  onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, name: e.target.value })
+                  }
                 />
               </div>
 
@@ -270,21 +286,31 @@ export default function SettingsPage() {
                     id="username"
                     placeholder="username"
                     value={profile.username}
-                    onChange={(e) => setProfile({ ...profile, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        username: e.target.value
+                          .toLowerCase()
+                          .replace(/[^a-z0-9_-]/g, ""),
+                      })
+                    }
                     className={
-                      usernameError 
-                        ? 'border-red-500 pr-10' 
-                        : usernameAvailable 
-                        ? 'border-green-500 pr-10' 
-                        : ''
+                      usernameError
+                        ? "border-red-500 pr-10"
+                        : usernameAvailable
+                        ? "border-green-500 pr-10"
+                        : ""
                     }
                   />
                   {checkingUsername && (
                     <Loader2 className="w-4 h-4 absolute right-3 top-3 animate-spin text-muted-foreground" />
                   )}
-                  {!checkingUsername && usernameAvailable && profile.username && profile.username !== session?.user?.username && (
-                    <Check className="w-4 h-4 absolute right-3 top-3 text-green-500" />
-                  )}
+                  {!checkingUsername &&
+                    usernameAvailable &&
+                    profile.username &&
+                    profile.username !== session?.user?.username && (
+                      <Check className="w-4 h-4 absolute right-3 top-3 text-green-500" />
+                    )}
                   {!checkingUsername && usernameError && (
                     <X className="w-4 h-4 absolute right-3 top-3 text-red-500" />
                   )}
@@ -292,11 +318,16 @@ export default function SettingsPage() {
                 {usernameError && (
                   <p className="text-xs text-red-500">{usernameError}</p>
                 )}
-                {usernameAvailable && profile.username && profile.username !== session?.user?.username && (
-                  <p className="text-xs text-green-600">Username is available!</p>
-                )}
+                {usernameAvailable &&
+                  profile.username &&
+                  profile.username !== session?.user?.username && (
+                    <p className="text-xs text-green-600">
+                      Username is available!
+                    </p>
+                  )}
                 <p className="text-xs text-muted-foreground">
-                  Your profile will be available at /u/@{profile.username || 'username'}
+                  Your profile will be available at /u/@
+                  {profile.username || "username"}
                 </p>
               </div>
 
@@ -306,7 +337,9 @@ export default function SettingsPage() {
                   id="bio"
                   placeholder="Tell us about yourself..."
                   value={profile.bio}
-                  onChange={(e) => setProfile({ ...profile, bio: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, bio: e.target.value })
+                  }
                   rows={4}
                 />
                 <p className="text-xs text-muted-foreground">
@@ -321,7 +354,9 @@ export default function SettingsPage() {
                   type="url"
                   placeholder="https://yourwebsite.com"
                   value={profile.website}
-                  onChange={(e) => setProfile({ ...profile, website: e.target.value })}
+                  onChange={(e) =>
+                    setProfile({ ...profile, website: e.target.value })
+                  }
                 />
               </div>
 
@@ -332,7 +367,12 @@ export default function SettingsPage() {
                     id="github"
                     placeholder="username"
                     value={profile.github}
-                    onChange={(e) => setProfile({ ...profile, github: e.target.value.replace(/[^a-zA-Z0-9-]/g, '') })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        github: e.target.value.replace(/[^a-zA-Z0-9-]/g, ""),
+                      })
+                    }
                   />
                 </div>
 
@@ -342,14 +382,24 @@ export default function SettingsPage() {
                     id="twitter"
                     placeholder="username"
                     value={profile.twitter}
-                    onChange={(e) => setProfile({ ...profile, twitter: e.target.value.replace(/[^a-zA-Z0-9_]/g, '') })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        twitter: e.target.value.replace(/[^a-zA-Z0-9_]/g, ""),
+                      })
+                    }
                   />
                 </div>
               </div>
 
               <Button
                 onClick={handleSaveProfile}
-                disabled={loading || checkingUsername || (!!usernameError && profile.username !== session?.user?.username)}
+                disabled={
+                  loading ||
+                  checkingUsername ||
+                  (!!usernameError &&
+                    profile.username !== session?.user?.username)
+                }
                 className="w-full"
               >
                 {loading ? (
@@ -358,7 +408,7 @@ export default function SettingsPage() {
                     Saving...
                   </>
                 ) : (
-                  'Save Profile'
+                  "Save Profile"
                 )}
               </Button>
             </CardContent>
@@ -380,11 +430,11 @@ export default function SettingsPage() {
                 <div className="flex gap-4">
                   <button
                     type="button"
-                    onClick={() => setTheme('dark')}
+                    onClick={() => setTheme("dark")}
                     className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-                      theme === 'dark'
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border hover:border-primary/50'
+                      theme === "dark"
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50"
                     }`}
                   >
                     <Moon className="w-6 h-6 mx-auto mb-2" />
@@ -392,11 +442,11 @@ export default function SettingsPage() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setTheme('light')}
+                    onClick={() => setTheme("light")}
                     className={`flex-1 p-4 rounded-lg border-2 transition-all ${
-                      theme === 'light'
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border hover:border-primary/50'
+                      theme === "light"
+                        ? "border-primary bg-primary/10"
+                        : "border-border hover:border-primary/50"
                     }`}
                   >
                     <Sun className="w-6 h-6 mx-auto mb-2" />
@@ -429,7 +479,7 @@ export default function SettingsPage() {
                     Saving...
                   </>
                 ) : (
-                  'Save Appearance Settings'
+                  "Save Appearance Settings"
                 )}
               </Button>
             </CardContent>
@@ -457,10 +507,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={notifications.email}
-                    onChange={e =>
+                    onChange={(e) =>
                       setNotifications({
                         ...notifications,
-                        email: e.target.checked
+                        email: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -477,10 +527,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={notifications.push}
-                    onChange={e =>
+                    onChange={(e) =>
                       setNotifications({
                         ...notifications,
-                        push: e.target.checked
+                        push: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -499,10 +549,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={notifications.comments}
-                    onChange={e =>
+                    onChange={(e) =>
                       setNotifications({
                         ...notifications,
-                        comments: e.target.checked
+                        comments: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -519,10 +569,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={notifications.favorites}
-                    onChange={e =>
+                    onChange={(e) =>
                       setNotifications({
                         ...notifications,
-                        favorites: e.target.checked
+                        favorites: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -539,10 +589,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={notifications.followers}
-                    onChange={e =>
+                    onChange={(e) =>
                       setNotifications({
                         ...notifications,
-                        followers: e.target.checked
+                        followers: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -561,7 +611,7 @@ export default function SettingsPage() {
                     Saving...
                   </>
                 ) : (
-                  'Save Notification Settings'
+                  "Save Notification Settings"
                 )}
               </Button>
             </CardContent>
@@ -589,10 +639,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={privacy.profilePublic}
-                    onChange={e =>
+                    onChange={(e) =>
                       setPrivacy({
                         ...privacy,
-                        profilePublic: e.target.checked
+                        profilePublic: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -609,7 +659,7 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={privacy.showEmail}
-                    onChange={e =>
+                    onChange={(e) =>
                       setPrivacy({ ...privacy, showEmail: e.target.checked })
                     }
                     className="w-4 h-4 rounded"
@@ -626,7 +676,7 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={privacy.showStats}
-                    onChange={e =>
+                    onChange={(e) =>
                       setPrivacy({ ...privacy, showStats: e.target.checked })
                     }
                     className="w-4 h-4 rounded"
@@ -643,10 +693,10 @@ export default function SettingsPage() {
                   <input
                     type="checkbox"
                     checked={privacy.allowComments}
-                    onChange={e =>
+                    onChange={(e) =>
                       setPrivacy({
                         ...privacy,
-                        allowComments: e.target.checked
+                        allowComments: e.target.checked,
                       })
                     }
                     className="w-4 h-4 rounded"
@@ -665,7 +715,7 @@ export default function SettingsPage() {
                     Saving...
                   </>
                 ) : (
-                  'Save Privacy Settings'
+                  "Save Privacy Settings"
                 )}
               </Button>
             </CardContent>
@@ -729,5 +779,5 @@ export default function SettingsPage() {
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

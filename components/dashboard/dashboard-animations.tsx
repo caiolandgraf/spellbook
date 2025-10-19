@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { LayoutDashboard } from 'lucide-react'
-import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
-import { LanguageChart } from './language-chart'
-import { RecentSpells } from './recent-spells'
-import { DashboardStats } from './stats'
+import { LayoutDashboard } from "lucide-react";
+import { StaggerContainer, StaggerItem } from "@/components/animations";
+import { LanguageChart } from "./language-chart";
+import { RecentSpells } from "./recent-spells";
+import { DashboardStats } from "./stats";
 
 interface DashboardAnimationsProps {
-  userName: string
-  spellsCount: number
-  spellbooksCount: number
-  recentSpells: any[]
-  languageStats: Record<string, number>
+  userName: string;
+  spellsCount: number;
+  spellbooksCount: number;
+  recentSpells: any[];
+  languageStats: Record<string, number>;
 }
 
 export function DashboardAnimations({
@@ -19,18 +19,18 @@ export function DashboardAnimations({
   spellsCount,
   spellbooksCount,
   recentSpells,
-  languageStats
+  languageStats,
 }: DashboardAnimationsProps) {
   return (
     <div className="space-y-8">
       {/* Welcome Message */}
       <div className="flex items-center gap-3">
-        <LayoutDashboard className="w-10 h-10 text-primary" />
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+          <LayoutDashboard className="w-6 h-6 text-primary" />
+        </div>
         <div>
-          <h1 className="text-4xl font-bold mb-2">
-            Welcome back, {userName}! ✨
-          </h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold">Welcome back, {userName}! ✨</h1>
+          <p className="text-sm text-muted-foreground">
             Manage your spells and spellbooks from your dashboard
           </p>
         </div>
@@ -60,5 +60,5 @@ export function DashboardAnimations({
         </StaggerItem>
       </StaggerContainer>
     </div>
-  )
+  );
 }

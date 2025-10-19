@@ -57,10 +57,12 @@ export default async function ExplorePage({
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Code2 className="w-10 h-10 text-primary" />
+          <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+            <Code2 className="w-6 h-6 text-primary" />
+          </div>
           <div>
-            <h1 className="text-4xl font-bold mb-2">Explore Spells</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl font-bold">Explore Spells</h1>
+            <p className="text-sm text-muted-foreground">
               Discover amazing code snippets from the community
               {(params.search || params.language) && (
                 <span className="ml-2">• Showing filtered results</span>

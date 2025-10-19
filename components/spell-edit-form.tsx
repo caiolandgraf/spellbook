@@ -9,14 +9,14 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CodeEditor } from "@/components/code-editor";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Save, X } from "lucide-react";
+import { ArrowLeft, Code2, Loader2, Save, X } from "lucide-react";
 import Link from "next/link";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 
 interface SpellEditFormProps {
@@ -113,9 +113,12 @@ export function SpellEditForm({ spell }: SpellEditFormProps) {
               <ArrowLeft className="w-4 h-4" />
             </Button>
           </Link>
+          <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
+            <Code2 className="w-8 h-8 text-primary" />
+          </div>
           <div>
-            <h1 className="text-3xl font-bold">Edit Spell</h1>
-            <p className="text-muted-foreground">Update your spell details</p>
+            <h1 className="text-2xl font-bold">Edit Spell</h1>
+            <p className="text-sm text-muted-foreground">Update your spell details</p>
           </div>
         </div>
       </div>

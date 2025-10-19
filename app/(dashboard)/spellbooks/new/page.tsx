@@ -65,15 +65,13 @@ export default function NewSpellbookPage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
+      <div className="flex items-center gap-3">
+        <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
           <BookOpen className="w-8 h-8 text-primary" />
         </div>
         <div>
-          <h1 className="text-4xl font-bold mb-2">Create New Spellbook</h1>
-          <p className="text-muted-foreground">
-            Organize your code snippets into collections
-          </p>
+          <h1 className="text-2xl font-bold">Create New Spellbook</h1>
+           <p className="text-sm text-muted-foreground">Organize your spells</p>
         </div>
       </div>
 

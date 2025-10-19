@@ -1,18 +1,18 @@
 'use client'
 
 import {
-  BookOpen,
-  Check,
-  Code2,
-  Copy,
-  ExternalLink,
-  Github,
-  Globe,
-  Loader2,
-  Save,
-  Share2,
-  Twitter,
-  X
+    BookOpen,
+    Check,
+    Code2,
+    Copy,
+    ExternalLink,
+    Github,
+    Globe,
+    Loader2,
+    Save,
+    Share2,
+    Twitter,
+    X
 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
@@ -22,11 +22,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -207,7 +207,7 @@ export default function ProfilePage() {
       <FadeIn>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">My Profile</h1>
+            <h1 className="text-2xl font-bold">My Profile</h1>
             <p className="text-muted-foreground">
               Manage your public profile and settings
             </p>
@@ -329,7 +329,7 @@ export default function ProfilePage() {
                     <div className="relative">
                       <Input
                         placeholder="username"
-                        value={profile.username}
+                        value={profile.username || ''}
                         onChange={e =>
                           setProfile({
                             ...profile,

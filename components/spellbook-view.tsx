@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   BookOpen,
@@ -7,94 +7,94 @@ import {
   MoreVertical,
   Plus,
   Search,
-  Trash
-} from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { SpellCard } from '@/components/spell-card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+  Trash,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SpellCard } from "@/components/spell-card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
-import { formatDate } from '@/lib/utils'
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { formatDate } from "@/lib/utils";
 
 interface SpellbookViewProps {
   spellbook: {
-    id: string
-    name: string
-    description: string | null
-    isPublic: boolean
-    tags: string[]
-    createdAt: Date
-    updatedAt: Date
+    id: string;
+    name: string;
+    description: string | null;
+    isPublic: boolean;
+    tags: string[];
+    createdAt: Date;
+    updatedAt: Date;
     user: {
-      id: string
-      name: string | null
-      username: string | null
-      image: string | null
-    }
+      id: string;
+      name: string | null;
+      username: string | null;
+      image: string | null;
+    };
     spells: Array<{
-      id: string
-      title: string
-      description: string | null
-      language: string
-      isPublic: boolean
-      tags: string[]
-      views: number
-      updatedAt: Date
-    }>
+      id: string;
+      title: string;
+      description: string | null;
+      language: string;
+      isPublic: boolean;
+      tags: string[];
+      views: number;
+      updatedAt: Date;
+    }>;
     _count: {
-      spells: number
-    }
-  }
-  isOwner: boolean
+      spells: number;
+    };
+  };
+  isOwner: boolean;
 }
 
 export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
-  const router = useRouter()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null)
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this spellbook?')) return
+    if (!confirm("Are you sure you want to delete this spellbook?")) return;
 
     try {
       const response = await fetch(`/api/spellbooks/${spellbook.id}`, {
-        method: 'DELETE'
-      })
+        method: "DELETE",
+      });
 
-      if (!response.ok) throw new Error('Failed to delete')
+      if (!response.ok) throw new Error("Failed to delete");
 
-      router.push('/spellbooks')
+      router.push("/spellbooks");
     } catch (error) {
-      console.error('Error deleting spellbook:', error)
-      alert('Failed to delete spellbook')
+      console.error("Error deleting spellbook:", error);
+      alert("Failed to delete spellbook");
     }
-  }
+  };
 
   // Filter spells
-  const filteredSpells = spellbook.spells.filter(spell => {
+  const filteredSpells = spellbook.spells.filter((spell) => {
     const matchesSearch =
       spell.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      spell.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      spell.description?.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesLanguage =
-      !selectedLanguage || spell.language === selectedLanguage
+      !selectedLanguage || spell.language === selectedLanguage;
 
-    return matchesSearch && matchesLanguage
-  })
+    return matchesSearch && matchesLanguage;
+  });
 
   // Get unique languages
   const languages = Array.from(
-    new Set(spellbook.spells.map(spell => spell.language))
-  )
+    new Set(spellbook.spells.map((spell) => spell.language))
+  );
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -102,14 +102,18 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
-            <BookOpen className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold">{spellbook.name}</h1>
-            {!spellbook.isPublic && (
-              <Badge variant="secondary">
-                <Lock className="w-3 h-3 mr-1" />
-                Private
-              </Badge>
-            )}
+            <div className="p-3 rounded-xl bg-primary/10 border border-primary/20">
+              <BookOpen className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">{spellbook.name}</h1>
+              {!spellbook.isPublic && (
+                <Badge variant="secondary">
+                  <Lock className="w-3 h-3 mr-1" />
+                  Private
+                </Badge>
+              )}
+            </div>
           </div>
 
           {spellbook.description && (
@@ -124,7 +128,7 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
               {spellbook.user.image && (
                 <Image
                   src={spellbook.user.image}
-                  alt={spellbook.user.name || 'User'}
+                  alt={spellbook.user.name || "User"}
                   width={24}
                   height={24}
                   className="rounded-full"
@@ -134,7 +138,7 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
                 href={
                   spellbook.user.username
                     ? `/u/${spellbook.user.username}`
-                    : '#'
+                    : "#"
                 }
                 className="hover:text-primary transition-colors"
               >
@@ -152,7 +156,7 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
           {/* Tags */}
           {spellbook.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
-              {spellbook.tags.map(tag => (
+              {spellbook.tags.map((tag) => (
                 <Badge key={tag} variant="outline">
                   #{tag}
                 </Badge>
@@ -206,7 +210,7 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
           <Input
             placeholder="Search spells..."
             value={searchQuery}
-            onChange={e => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-9"
           />
         </div>
@@ -214,16 +218,16 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
         {languages.length > 0 && (
           <div className="flex gap-2 flex-wrap">
             <Button
-              variant={selectedLanguage === null ? 'default' : 'outline'}
+              variant={selectedLanguage === null ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedLanguage(null)}
             >
               All
             </Button>
-            {languages.map(lang => (
+            {languages.map((lang) => (
               <Button
                 key={lang}
-                variant={selectedLanguage === lang ? 'default' : 'outline'}
+                variant={selectedLanguage === lang ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedLanguage(lang)}
               >
@@ -240,13 +244,13 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
           <div className="text-6xl mb-4">🔮</div>
           <h3 className="text-2xl font-semibold mb-2">
             {searchQuery || selectedLanguage
-              ? 'No spells found'
-              : 'No spells yet'}
+              ? "No spells found"
+              : "No spells yet"}
           </h3>
           <p className="text-muted-foreground mb-6 max-w-md">
             {searchQuery || selectedLanguage
-              ? 'Try adjusting your search or filters'
-              : 'Add your first spell to this spellbook'}
+              ? "Try adjusting your search or filters"
+              : "Add your first spell to this spellbook"}
           </p>
           {isOwner && !searchQuery && !selectedLanguage && (
             <Button asChild>
@@ -259,14 +263,14 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredSpells.map(spell => (
+          {filteredSpells.map((spell) => (
             <SpellCard
               key={spell.id}
               spell={{
                 ...spell,
                 spellbook: {
-                  name: spellbook.name
-                }
+                  name: spellbook.name,
+                },
               }}
               isLoggedIn={true}
             />
@@ -274,5 +278,5 @@ export function SpellbookView({ spellbook, isOwner }: SpellbookViewProps) {
         </div>
       )}
     </div>
-  )
+  );
 }

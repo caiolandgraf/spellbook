@@ -69,13 +69,13 @@ export function SpellbookEditForm({ spellbook }: SpellbookEditFormProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <BookOpen className="w-10 h-10 text-primary" />
+      <div className="flex items-center gap-4">
+                <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20">
+          <BookOpen className="w-8 h-8 text-primary" />
+        </div>
         <div>
-          <h1 className="text-4xl font-bold">Edit Spellbook</h1>
-          <p className="text-muted-foreground">
-            Update your spellbook details
-          </p>
+          <h1 className="text-2xl font-bold">Edit Spellbook</h1>
+          <p className="text-sm text-muted-foreground">Update your spellbook details</p>
         </div>
       </div>
 

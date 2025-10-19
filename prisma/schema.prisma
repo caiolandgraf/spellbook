@@ -31,6 +31,7 @@ model User {
   spellbooks Spellbook[]
   spells     Spell[]
   favorites  Favorite[]
+  runes      Rune[]
 }
 
 model Account {
@@ -129,4 +130,24 @@ model Favorite {
   @@unique([userId, spellId])
   @@index([userId])
   @@index([spellId])
+}
+
+model Rune {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  html        String   @default("")
+  css         String   @default("")
+  javascript  String   @default("")
+  isPublic    Boolean  @default(true)
+  tags        String[]
+  views       Int      @default(0)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

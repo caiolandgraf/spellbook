@@ -2,14 +2,14 @@
 
 import { motion } from 'framer-motion'
 import {
-  BookOpen,
-  Code2,
-  GitBranch,
-  Sparkles,
-  Star,
-  Terminal,
-  Users,
-  Zap
+    BookOpen,
+    Code2,
+    GitBranch,
+    Sparkles,
+    Star,
+    Terminal,
+    Users,
+    Zap
 } from 'lucide-react'
 import Link from 'next/link'
 import { FadeIn, StaggerContainer, StaggerItem } from '@/components/animations'
@@ -164,6 +164,46 @@ export default function HomePage() {
               />
             </StaggerItem>
           </StaggerContainer>
+
+          {/* Meet Runes Card */}
+          <FadeIn delay={0.7}>
+            <div className="pt-16 max-w-4xl mx-auto">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 via-primary/20 to-blue-500/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all" />
+                <div className="relative p-8 rounded-3xl border border-primary/30 bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all">
+                  <div className="flex flex-col md:flex-row items-center gap-8">
+                    <div className="flex-shrink-0">
+                      <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-500/20 to-primary/20 border border-primary/30">
+                        <Sparkles className="w-16 h-16 text-primary" />
+                      </div>
+                    </div>
+                    <div className="flex-1 text-center md:text-left space-y-3">
+                      <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-primary to-blue-400 bg-clip-text text-transparent">
+                        Meet Runes ✨
+                      </h2>
+                      <p className="text-lg text-muted-foreground">
+                        Create interactive components with HTML, CSS, and JavaScript. 
+                        Build dynamic UI elements and share them with the world!
+                      </p>
+                      <div className="flex flex-wrap gap-3 justify-center md:justify-start pt-2">
+                        <Button size="lg" asChild>
+                          <Link href="/runes">
+                            <Sparkles className="w-5 h-5 mr-2" />
+                            Explore Runes
+                          </Link>
+                        </Button>
+                        <Button size="lg" variant="outline" asChild>
+                          <Link href="/dashboard/runes/new">
+                            Create Your First Rune
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
         </div>
       </div>
 
@@ -181,7 +221,13 @@ export default function HomePage() {
                 href="/spells"
                 className="hover:text-primary transition-colors"
               >
-                Explore spells
+                Explore Spells
+              </Link>
+              <Link
+                href="/runes"
+                className="hover:text-primary transition-colors"
+              >
+                Explore Runes
               </Link>
               <Link
                 href="/auth/signin"

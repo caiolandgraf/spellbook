@@ -1,14 +1,15 @@
 'use client'
 
-import { BookOpen, Code2, Heart, LayoutDashboard, Settings } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import { BookOpen, Code2, Heart, LayoutDashboard, Settings, Sparkles } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Spellbooks', href: '/spellbooks', icon: BookOpen },
   { name: 'All Spells', href: '/explore', icon: Code2 },
+  { name: 'Runes', href: '/dashboard/runes', icon: Sparkles },
   { name: 'Favorites', href: '/favorites', icon: Heart },
   { name: 'Settings', href: '/settings', icon: Settings }
 ]
