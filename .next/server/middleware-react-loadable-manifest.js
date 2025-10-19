@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"components/code-display.tsx -> prismjs":{"id":10228,"files":["static/chunks/10228.d63024d0bca746ca.js"]}}';

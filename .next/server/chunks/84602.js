@@ -1,1 +1,0 @@
-exports.id=84602,exports.ids=[84602],exports.modules={84602:()=>{Prism.languages.csv={value:/[^\r\n,"]+|"(?:[^"]|"")*"(?!")/,punctuation:/,/}}};
