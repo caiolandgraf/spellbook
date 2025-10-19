@@ -19,8 +19,8 @@ export function Sidebar() {
   return (
     <aside className="hidden md:flex w-64 flex-col border-r border-border bg-card/50 backdrop-blur-sm">
       {/* Logo */}
-      <div className="p-6 border-b border-border">
-        <Link href="/dashboard" className="flex items-center space-x-2">
+      <div className="p-4 border-b border-border flex items-center justify-center">
+        <Link href="/dashboard" className="flex items-center  space-x-2">
           <BookOpen className="w-8 h-8 text-primary" />
           <span className="text-xl font-bold">Spellbook</span>
         </Link>

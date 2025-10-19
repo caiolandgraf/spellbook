@@ -7,7 +7,7 @@ import {
   GitBranch,
   Sparkles,
   Star,
-  Terminal, 
+  Terminal,
   Users,
   Zap
 } from 'lucide-react'
@@ -103,7 +103,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="text-base px-8 h-12 border-primary/30 hover:bg-primary/10"
+                className="text-base px-8 h-12 border-primary/30 hover:bg-white transition-colors duration-200"
                 asChild
               >
                 <Link href="/spells">
@@ -175,9 +175,7 @@ export default function HomePage() {
               <BookOpen className="w-5 h-5 text-primary" />
               <span className="font-semibold">Spellbook</span>
             </div>
-            <div className="text-sm text-muted-foreground">
-              Built with Next.js 15, React 19, and Tailwind CSS
-            </div>
+            <div className="text-sm text-muted-foreground">Built with ✨</div>
             <div className="flex gap-4 text-sm">
               <Link
                 href="/spells"
