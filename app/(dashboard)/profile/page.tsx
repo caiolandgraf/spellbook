@@ -1,124 +1,192 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "sonner";
-import { BookOpen, Code2, Copy, ExternalLink, Github, Globe, Loader2, Save, Share2, Twitter } from "lucide-react";
-import { FadeIn } from "@/components/animations/fade-in";
+import {
+  BookOpen,
+  Check,
+  Code2,
+  Copy,
+  ExternalLink,
+  Github,
+  Globe,
+  Loader2,
+  Save,
+  Share2,
+  Twitter,
+  X
+} from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { FadeIn } from '@/components/animations/fade-in'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Textarea } from '@/components/ui/textarea'
 
 interface UserProfile {
-  id: string;
-  name: string | null;
-  email: string;
-  username: string | null;
-  bio: string | null;
-  image: string | null;
-  website: string | null;
-  github: string | null;
-  twitter: string | null;
-  isPublic: boolean;
+  id: string
+  name: string | null
+  email: string
+  username: string | null
+  bio: string | null
+  image: string | null
+  website: string | null
+  github: string | null
+  twitter: string | null
+  isPublic: boolean
   _count: {
-    spells: number;
-    spellbooks: number;
-    favorites: number;
-  };
+    spells: number
+    spellbooks: number
+    favorites: number
+  }
 }
 
 export default function ProfilePage() {
-  const { data: session, update } = useSession();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const { data: session, update } = useSession()
+  const [profile, setProfile] = useState<UserProfile | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [checkingUsername, setCheckingUsername] = useState(false)
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean | null>(
+    null
+  )
+  const [usernameError, setUsernameError] = useState<string>('')
 
   const [formData, setFormData] = useState({
-    name: "",
-    username: "",
-    bio: "",
-    website: "",
-    github: "",
-    twitter: "",
+    name: '',
+    username: '',
+    bio: '',
+    website: '',
+    github: '',
+    twitter: '',
     isPublic: true,
-    image: "",
-  });
+    image: ''
+  })
 
   useEffect(() => {
     if (session?.user?.id) {
-      fetchProfile();
+      fetchProfile()
     }
-  }, [session]);
+  }, [session])
 
   const fetchProfile = async () => {
     try {
-      const res = await fetch("/api/profile");
-      if (!res.ok) throw new Error("Failed to fetch profile");
-      const data = await res.json();
-      setProfile(data);
+      const res = await fetch('/api/profile')
+      if (!res.ok) throw new Error('Failed to fetch profile')
+      const data = await res.json()
+      setProfile(data)
       setFormData({
-        name: data.name || "",
-        username: data.username || "",
-        bio: data.bio || "",
-        website: data.website || "",
-        github: data.github || "",
-        twitter: data.twitter || "",
+        name: data.name || '',
+        username: data.username || '',
+        bio: data.bio || '',
+        website: data.website || '',
+        github: data.github || '',
+        twitter: data.twitter || '',
         isPublic: data.isPublic,
-        image: data.image || "",
-      });
+        image: data.image || ''
+      })
     } catch (error) {
-      console.error("Error fetching profile:", error);
-      toast.error("Failed to load profile");
+      console.error('Error fetching profile:', error)
+      toast.error('Failed to load profile')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-
-    try {
-      const res = await fetch("/api/profile", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.error || "Failed to update profile");
+  // Check username availability with debounce
+  useEffect(() => {
+    const checkUsername = async () => {
+      if (!profile?.username || profile?.username === session?.user?.username) {
+        setUsernameAvailable(null)
+        setUsernameError('')
+        return
       }
 
-      const updated = await res.json();
-      setProfile(updated);
-      
+      // Validate username format
+      const usernameRegex = /^[a-zA-Z0-9_-]{3,20}$/
+      if (!usernameRegex.test(profile.username)) {
+        setUsernameAvailable(false)
+        setUsernameError(
+          'Username must be 3-20 characters (letters, numbers, _, -)'
+        )
+        return
+      }
+
+      setCheckingUsername(true)
+      setUsernameError('')
+
+      try {
+        const res = await fetch(
+          `/api/profile/check-username?username=${encodeURIComponent(profile.username)}`
+        )
+        const data = await res.json()
+        setUsernameAvailable(data.available)
+        if (!data.available) {
+          setUsernameError('Username already taken')
+        }
+      } catch (error) {
+        console.error('Error checking username:', error)
+      } finally {
+        setCheckingUsername(false)
+      }
+    }
+
+    const timeoutId = setTimeout(checkUsername, 500)
+    return () => clearTimeout(timeoutId)
+  }, [profile?.username, session?.user?.username])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      })
+
+      if (!res.ok) {
+        const error = await res.json()
+        throw new Error(error.error || 'Failed to update profile')
+      }
+
+      const updated = await res.json()
+      setProfile(updated)
+
       // Atualizar a sessão com a nova imagem e nome
       await update({
         name: updated.name,
-        image: updated.image,
-      });
-      
-      toast.success("Profile updated successfully!");
+        image: updated.image
+      })
+
+      toast.success('Profile updated successfully!')
     } catch (error) {
-      console.error("Error updating profile:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to update profile");
+      console.error('Error updating profile:', error)
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to update profile'
+      )
     } finally {
-      setSaving(false);
+      setSaving(false)
     }
-  };
+  }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
-    );
+    )
   }
 
   if (!profile) {
@@ -131,7 +199,7 @@ export default function ProfilePage() {
           </CardHeader>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -154,11 +222,12 @@ export default function ProfilePage() {
               <Avatar className="w-20 h-20">
                 <AvatarImage src={profile.image || undefined} />
                 <AvatarFallback className="text-2xl">
-                  {profile.name?.[0]?.toUpperCase() || profile.email[0].toUpperCase()}
+                  {profile.name?.[0]?.toUpperCase() ||
+                    profile.email[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <CardTitle>{profile.name || "Anonymous"}</CardTitle>
+                <CardTitle>{profile.name || 'Anonymous'}</CardTitle>
                 <CardDescription>{profile.email}</CardDescription>
                 <div className="flex gap-2 mt-2">
                   <Badge variant="secondary">
@@ -200,8 +269,10 @@ export default function ProfilePage() {
                   variant="outline"
                   size="icon"
                   onClick={() => {
-                    navigator.clipboard.writeText(`${window.location.origin}/u/${profile.username}`)
-                    toast.success("Profile link copied to clipboard!")
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/u/${profile.username}`
+                    )
+                    toast.success('Profile link copied to clipboard!')
                   }}
                 >
                   <Copy className="w-4 h-4" />
@@ -246,21 +317,61 @@ export default function ProfilePage() {
                     <Input
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={e =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
                       placeholder="Your name"
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="username">Username</Label>
-                    <Input
-                      id="username"
-                      value={formData.username}
-                      onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                      placeholder="your-username"
-                    />
+                    <div className="relative">
+                      <Input
+                        placeholder="username"
+                        value={profile.username}
+                        onChange={e =>
+                          setProfile({
+                            ...profile,
+                            username: e.target.value
+                              .toLowerCase()
+                              .replace(/[^a-z0-9_-]/g, '')
+                          })
+                        }
+                        className={
+                          usernameError
+                            ? 'border-red-500 pr-10'
+                            : usernameAvailable
+                              ? 'border-green-500 pr-10'
+                              : ''
+                        }
+                      />
+                      {checkingUsername && (
+                        <Loader2 className="w-4 h-4 absolute right-3 top-3 animate-spin text-muted-foreground" />
+                      )}
+                      {!checkingUsername &&
+                        usernameAvailable &&
+                        profile.username &&
+                        profile.username !== session?.user?.username && (
+                          <Check className="w-4 h-4 absolute right-3 top-3 text-green-500" />
+                        )}
+                      {!checkingUsername && usernameError && (
+                        <X className="w-4 h-4 absolute right-3 top-3 text-red-500" />
+                      )}
+                    </div>
+                    {usernameError && (
+                      <p className="text-xs text-red-500">{usernameError}</p>
+                    )}
+                    {usernameAvailable &&
+                      profile.username &&
+                      profile.username !== session?.user?.username && (
+                        <p className="text-xs text-green-600">
+                          Username is available!
+                        </p>
+                      )}
                     <p className="text-xs text-muted-foreground">
-                      Your profile will be at: /u/{formData.username || "your-username"}
+                      Your profile will be available at /u/@
+                      {profile.username || 'username'}
                     </p>
                   </div>
 
@@ -269,7 +380,9 @@ export default function ProfilePage() {
                     <Textarea
                       id="bio"
                       value={formData.bio}
-                      onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                      onChange={e =>
+                        setFormData({ ...formData, bio: e.target.value })
+                      }
                       placeholder="Tell us about yourself"
                       rows={4}
                     />
@@ -280,7 +393,9 @@ export default function ProfilePage() {
                     <Input
                       id="image"
                       value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                      onChange={e =>
+                        setFormData({ ...formData, image: e.target.value })
+                      }
                       placeholder="https://example.com/avatar.jpg"
                       type="url"
                     />
@@ -294,7 +409,9 @@ export default function ProfilePage() {
                       type="checkbox"
                       id="isPublic"
                       checked={formData.isPublic}
-                      onChange={(e) => setFormData({ ...formData, isPublic: e.target.checked })}
+                      onChange={e =>
+                        setFormData({ ...formData, isPublic: e.target.checked })
+                      }
                       className="w-4 h-4 rounded border-input"
                     />
                     <Label htmlFor="isPublic" className="cursor-pointer">
@@ -338,7 +455,9 @@ export default function ProfilePage() {
                         id="website"
                         type="url"
                         value={formData.website}
-                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        onChange={e =>
+                          setFormData({ ...formData, website: e.target.value })
+                        }
                         placeholder="https://yourwebsite.com"
                       />
                     </div>
@@ -351,7 +470,9 @@ export default function ProfilePage() {
                       <Input
                         id="github"
                         value={formData.github}
-                        onChange={(e) => setFormData({ ...formData, github: e.target.value })}
+                        onChange={e =>
+                          setFormData({ ...formData, github: e.target.value })
+                        }
                         placeholder="username"
                       />
                     </div>
@@ -364,7 +485,9 @@ export default function ProfilePage() {
                       <Input
                         id="twitter"
                         value={formData.twitter}
-                        onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
+                        onChange={e =>
+                          setFormData({ ...formData, twitter: e.target.value })
+                        }
                         placeholder="@username"
                       />
                     </div>
@@ -390,5 +513,5 @@ export default function ProfilePage() {
         </Tabs>
       </FadeIn>
     </div>
-  );
+  )
 }
