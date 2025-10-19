@@ -1,155 +1,163 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { CodeEditor } from "@/components/code-editor";
-import { CodeRunner } from "@/components/code-runner";
-import Link from "next/link";
 import {
-    Copy,
-    Edit,
-    Eye,
-    Heart,
-    LogIn,
-    MoreVertical,
-    Share2,
-    Trash,
-} from "lucide-react";
+  Copy,
+  Edit,
+  Eye,
+  Heart,
+  LogIn,
+  MoreVertical,
+  Share2,
+  Trash
+} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { CodeEditor } from '@/components/code-editor'
+import { CodeRunner } from '@/components/code-runner'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { formatRelativeTime, getLanguageColor } from "@/lib/utils";
-import Image from "next/image";
-import { toast } from "sonner";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { formatRelativeTime, getLanguageColor } from '@/lib/utils'
 
 interface SpellViewPublicProps {
   spell: {
-    id: string;
-    title: string;
-    description: string | null;
-    code: string;
-    language: string;
-    isPublic: boolean;
-    tags: string[];
-    views: number;
-    executions: number;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string
+    title: string
+    description: string | null
+    code: string
+    language: string
+    isPublic: boolean
+    tags: string[]
+    views: number
+    executions: number
+    createdAt: Date
+    updatedAt: Date
     user: {
-      id: string;
-      name: string | null;
-      username: string | null;
-      image: string | null;
-    };
+      id: string
+      name: string | null
+      username: string | null
+      image: string | null
+    }
     spellbook: {
-      id: string;
-      name: string;
-    } | null;
-  };
-  isOwner: boolean;
-  isLoggedIn: boolean;
+      id: string
+      name: string
+    } | null
+  }
+  isOwner: boolean
+  isLoggedIn: boolean
 }
 
-export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicProps) {
-  const [copied, setCopied] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+export function SpellViewPublic({
+  spell,
+  isOwner,
+  isLoggedIn
+}: SpellViewPublicProps) {
+  const [copied, setCopied] = useState(false)
+  const [isFavorited, setIsFavorited] = useState(false)
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   // Check if spell is favorited (only if logged in)
   useEffect(() => {
-    if (!isLoggedIn) return;
+    if (!isLoggedIn) return
 
     const checkFavorite = async () => {
       try {
-        const response = await fetch(`/api/spells/${spell.id}/favorite`);
-        const data = await response.json();
-        setIsFavorited(data.favorited);
+        const response = await fetch(`/api/spells/${spell.id}/favorite`)
+        const data = await response.json()
+        setIsFavorited(data.favorited)
       } catch (error) {
-        console.error("Error checking favorite:", error);
+        console.error('Error checking favorite:', error)
       }
-    };
+    }
 
-    checkFavorite();
-  }, [spell.id, isLoggedIn]);
+    checkFavorite()
+  }, [spell.id, isLoggedIn])
 
   const copyCode = async () => {
-    await navigator.clipboard.writeText(spell.code);
-    setCopied(true);
-    toast.success("Code copied to clipboard! 📋");
-    setTimeout(() => setCopied(false), 2000);
-  };
+    await navigator.clipboard.writeText(spell.code)
+    setCopied(true)
+    toast.success('Code copied to clipboard! 📋')
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const shareSpell = async () => {
-    const url = window.location.href;
-    await navigator.clipboard.writeText(url);
-    toast.success("Link copied to clipboard! 🔗");
-  };
+    const url = window.location.href
+    await navigator.clipboard.writeText(url)
+    toast.success('Link copied to clipboard! 🔗')
+  }
 
   const toggleFavorite = async () => {
     if (!isLoggedIn) {
-      toast.error("Please sign in to favorite spells");
-      return;
+      toast.error('Please sign in to favorite spells')
+      return
     }
 
-    setIsLoadingFavorite(true);
+    setIsLoadingFavorite(true)
     try {
-      const method = isFavorited ? "DELETE" : "POST";
+      const method = isFavorited ? 'DELETE' : 'POST'
       const response = await fetch(`/api/spells/${spell.id}/favorite`, {
-        method,
-      });
+        method
+      })
 
       if (response.ok) {
-        setIsFavorited(!isFavorited);
+        setIsFavorited(!isFavorited)
         if (!isFavorited) {
-          toast.success("Added to favorites! ❤️");
+          toast.success('Added to favorites! ❤️')
         } else {
-          toast.success("Removed from favorites");
+          toast.success('Removed from favorites')
         }
       }
     } catch (error) {
-      console.error("Error toggling favorite:", error);
-      toast.error("Failed to update favorite");
+      console.error('Error toggling favorite:', error)
+      toast.error('Failed to update favorite')
     } finally {
-      setIsLoadingFavorite(false);
+      setIsLoadingFavorite(false)
     }
-  };
+  }
 
   const handleEdit = () => {
-    window.location.href = `/spells/${spell.id}/edit`;
-  };
+    window.location.href = `/dashboard/spell/${spell.id}/edit`
+  }
 
   const handleDelete = async () => {
-    if (!confirm("Are you sure you want to delete this spell? This action cannot be undone.")) {
-      return;
+    if (
+      !confirm(
+        'Are you sure you want to delete this spell? This action cannot be undone.'
+      )
+    ) {
+      return
     }
 
-    setIsDeleting(true);
+    setIsDeleting(true)
     try {
       const response = await fetch(`/api/spells/${spell.id}`, {
-        method: "DELETE",
-      });
+        method: 'DELETE'
+      })
 
       if (response.ok) {
-        toast.success("Spell deleted successfully! 🗑️");
+        toast.success('Spell deleted successfully! 🗑️')
         setTimeout(() => {
-          window.location.href = "/spells";
-        }, 1000);
+          window.location.href = '/spells'
+        }, 1000)
       } else {
-        const error = await response.json();
-        toast.error(error.error || "Failed to delete spell");
+        const error = await response.json()
+        toast.error(error.error || 'Failed to delete spell')
       }
     } catch (error) {
-      console.error("Error deleting spell:", error);
-      toast.error("Failed to delete spell");
+      console.error('Error deleting spell:', error)
+      toast.error('Failed to delete spell')
     } finally {
-      setIsDeleting(false);
+      setIsDeleting(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -162,8 +170,12 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
                 <LogIn className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-medium">Want to save and run this spell?</p>
-                <p className="text-xs text-muted-foreground">Sign in to favorite, fork, and execute code</p>
+                <p className="text-sm font-medium">
+                  Want to save and run this spell?
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Sign in to favorite, fork, and execute code
+                </p>
               </div>
             </div>
             <a
@@ -183,11 +195,9 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
               <h1 className="text-4xl font-bold">{spell.title}</h1>
-              {!spell.isPublic && (
-                <Badge variant="secondary">Private</Badge>
-              )}
+              {!spell.isPublic && <Badge variant="secondary">Private</Badge>}
             </div>
-            
+
             {spell.description && (
               <p className="text-muted-foreground text-lg mb-4">
                 {spell.description}
@@ -200,14 +210,14 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
                 {spell.user.image ? (
                   <Image
                     src={spell.user.image}
-                    alt={spell.user.name || "User"}
+                    alt={spell.user.name || 'User'}
                     width={24}
                     height={24}
                     className="rounded-full"
                   />
                 ) : (
                   <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs">
-                    {spell.user.name?.[0]?.toUpperCase() || "?"}
+                    {spell.user.name?.[0]?.toUpperCase() || '?'}
                   </div>
                 )}
                 <Link
@@ -217,9 +227,9 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
                   {spell.user.name}
                 </Link>
               </div>
-              
+
               <span>•</span>
-              
+
               <div className="flex items-center gap-1">
                 <span
                   className="w-3 h-3 rounded-full"
@@ -236,7 +246,7 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
               )}
 
               <span>•</span>
-              
+
               <div className="flex items-center gap-1">
                 <Eye className="w-4 h-4" />
                 <span>{spell.views} views</span>
@@ -256,27 +266,25 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
               disabled={copied}
             >
               <Copy className="w-4 h-4 mr-2" />
-              {copied ? "Copied!" : "Copy"}
+              {copied ? 'Copied!' : 'Copy'}
             </Button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={shareSpell}
-            >
+            <Button variant="outline" size="sm" onClick={shareSpell}>
               <Share2 className="w-4 h-4 mr-2" />
               Share
             </Button>
 
             {isLoggedIn && (
               <Button
-                variant={isFavorited ? "default" : "outline"}
+                variant={isFavorited ? 'default' : 'outline'}
                 size="sm"
                 onClick={toggleFavorite}
                 disabled={isLoadingFavorite}
               >
-                <Heart className={`w-4 h-4 mr-2 ${isFavorited ? "fill-current" : ""}`} />
-                {isFavorited ? "Favorited" : "Favorite"}
+                <Heart
+                  className={`w-4 h-4 mr-2 ${isFavorited ? 'fill-current' : ''}`}
+                />
+                {isFavorited ? 'Favorited' : 'Favorite'}
               </Button>
             )}
 
@@ -298,7 +306,7 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
                     className="text-destructive"
                   >
                     <Trash className="w-4 h-4 mr-2" />
-                    {isDeleting ? "Deleting..." : "Delete"}
+                    {isDeleting ? 'Deleting...' : 'Delete'}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -309,7 +317,7 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
         {/* Tags */}
         {spell.tags && spell.tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {spell.tags.map((tag) => (
+            {spell.tags.map(tag => (
               <Badge key={tag} variant="secondary">
                 #{tag}
               </Badge>
@@ -328,34 +336,56 @@ export function SpellViewPublic({ spell, isOwner, isLoggedIn }: SpellViewPublicP
         </div>
 
         {/* Code Runner */}
-        {isLoggedIn && ["javascript", "js", "typescript", "ts", "python", "py", "php", "html", "css", "sql"].includes(
-          spell.language.toLowerCase()
-        ) && (
-          <CodeRunner code={spell.code} language={spell.language} />
-        )}
+        {isLoggedIn &&
+          [
+            'javascript',
+            'js',
+            'typescript',
+            'ts',
+            'python',
+            'py',
+            'php',
+            'html',
+            'css',
+            'sql'
+          ].includes(spell.language.toLowerCase()) && (
+            <CodeRunner code={spell.code} language={spell.language} />
+          )}
 
         {/* Not logged in message for code runner */}
-        {!isLoggedIn && ["javascript", "js", "typescript", "ts", "python", "py", "php", "html", "css", "sql"].includes(
-          spell.language.toLowerCase()
-        ) && (
-          <div className="border border-dashed border-primary/20 rounded-lg p-8 text-center space-y-3 bg-primary/5">
-            <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <LogIn className="w-6 h-6 text-primary" />
+        {!isLoggedIn &&
+          [
+            'javascript',
+            'js',
+            'typescript',
+            'ts',
+            'python',
+            'py',
+            'php',
+            'html',
+            'css',
+            'sql'
+          ].includes(spell.language.toLowerCase()) && (
+            <div className="border border-dashed border-primary/20 rounded-lg p-8 text-center space-y-3 bg-primary/5">
+              <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <LogIn className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold">
+                Sign in to run this code
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Create a free account to execute code directly in your browser
+              </p>
+              <a
+                href="/auth/signin"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In to Run Code
+              </a>
             </div>
-            <h3 className="text-lg font-semibold">Sign in to run this code</h3>
-            <p className="text-sm text-muted-foreground">
-              Create a free account to execute code directly in your browser
-            </p>
-            <a
-              href="/auth/signin"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium"
-            >
-              <LogIn className="w-4 h-4" />
-              Sign In to Run Code
-            </a>
-          </div>
-        )}
+          )}
       </div>
     </div>
-  );
+  )
 }

@@ -80,7 +80,7 @@ export default function NewSpellPage({
       if (spellbookId) {
         router.push(`/spellbooks/${spellbookId}`)
       } else {
-        router.push(`/spells/${spell.id}`)
+        router.push(`/dashboard/spell/${spell.id}`)
       }
     } catch (error) {
       console.error('Error creating spell:', error)

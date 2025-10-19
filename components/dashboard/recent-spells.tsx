@@ -30,7 +30,7 @@ export function RecentSpells({ spells }: RecentSpellsProps) {
             <Code2 className="w-12 h-12 mx-auto mb-3 opacity-50" />
             <p>No spells yet</p>
             <Button size="sm" className="mt-4" asChild>
-              <Link href="/spells/new">Create your first spell</Link>
+              <Link href="/dashboard/spell/new">Create your first spell</Link>
             </Button>
           </div>
         ) : (

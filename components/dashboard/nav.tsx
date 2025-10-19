@@ -67,7 +67,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
         {/* Actions */}
         <div className="flex items-center space-x-4">
           <Button size="sm" asChild>
-            <Link href="/spells/new">
+            <Link href="/dashboard/spell/new">
               <Plus className="w-4 h-4 mr-2" />
               New Spell
             </Link>
