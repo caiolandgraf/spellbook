@@ -5,14 +5,15 @@ export function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'Spellbook',
-    description: 'Store, manage, execute and share your code snippets with the world',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+    description:
+      'Store, manage, execute and share your code snippets with the world',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://spellbook.bunx.io',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Web',
     offers: {
       '@type': 'Offer',
       price: '0',
-      priceCurrency: 'USD',
+      priceCurrency: 'USD'
     },
     featureList: [
       'Code snippet storage',
@@ -20,7 +21,7 @@ export function StructuredData() {
       'Code execution',
       'Syntax highlighting',
       'Code sharing',
-      'Public and private snippets',
+      'Public and private snippets'
     ],
     programmingLanguage: [
       'JavaScript',
@@ -29,8 +30,8 @@ export function StructuredData() {
       'PHP',
       'HTML',
       'CSS',
-      'SQL',
-    ],
+      'SQL'
+    ]
   }
 
   return (
@@ -42,7 +43,9 @@ export function StructuredData() {
   )
 }
 
-export function SpellStructuredData({ spell }: {
+export function SpellStructuredData({
+  spell
+}: {
   spell: {
     id: string
     title: string
@@ -68,9 +71,9 @@ export function SpellStructuredData({ spell }: {
     dateModified: spell.updatedAt.toISOString(),
     author: {
       '@type': 'Person',
-      name: spell.user.name || spell.user.username || 'Anonymous',
+      name: spell.user.name || spell.user.username || 'Anonymous'
     },
-    url: `${process.env.NEXT_PUBLIC_APP_URL}/spells/${spell.id}`,
+    url: `${process.env.NEXT_PUBLIC_APP_URL}/spells/${spell.id}`
   }
 
   return (
