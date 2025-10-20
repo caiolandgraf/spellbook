@@ -27,7 +27,7 @@ export default function NewRunePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!formData.title.trim()) {
       toast.error('Please enter a title')
       return
@@ -57,10 +57,12 @@ export default function NewRunePage() {
 
       const data = await response.json()
       toast.success('Rune created successfully! ✨')
-      router.push(`/runes/${data.id}`)
+      router.push(`/dashboard/runes/${data.id}`)
     } catch (error) {
       console.error('Error creating rune:', error)
-      toast.error(error instanceof Error ? error.message : 'Failed to create rune')
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to create rune'
+      )
     } finally {
       setIsSubmitting(false)
     }
@@ -202,9 +204,11 @@ export default function NewRunePage() {
         html={formData.html}
         css={formData.css}
         javascript={formData.javascript}
-        onHtmlChange={(html) => setFormData({ ...formData, html })}
-        onCssChange={(css) => setFormData({ ...formData, css })}
-        onJavascriptChange={(javascript) => setFormData({ ...formData, javascript })}
+        onHtmlChange={html => setFormData({ ...formData, html })}
+        onCssChange={css => setFormData({ ...formData, css })}
+        onJavascriptChange={javascript =>
+          setFormData({ ...formData, javascript })
+        }
         sideBySide={true}
       />
     </div>
